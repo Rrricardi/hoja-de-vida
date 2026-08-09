@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nombre Apellido — Hoja de Vida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2430;
+    --ink-soft:#2b3546;
+    --paper:#faf7f2;
+    --paper-line:#ded7c7;
+    --brass:#a9824f;
+    --brass-soft:#c8a877;
+    --text-main:#242220;
+    --text-muted:#6b6459;
+    --text-on-ink:#ece7dc;
+    --text-on-ink-muted:#9aa0ac;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    font-family:'Work Sans', sans-serif;
+    color:var(--text-main);
+    background:var(--paper);
+    line-height:1.55;
+    font-weight:400;
+  }
+
+  .page{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    max-width:1100px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--paper);
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    background:var(--ink);
+    color:var(--text-on-ink);
+    padding:56px 34px;
+    position:relative;
+  }
+
+  .photo-wrap{
+    width:148px;
+    height:148px;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid var(--brass-soft);
+    margin-bottom:28px;
+    background:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .photo-wrap img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .photo-wrap .placeholder-text{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    color:var(--text-on-ink-muted);
+    text-align:center;
+    padding:0 12px;
+    line-height:1.4;
+  }
+
+  .sidebar h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:30px;
+    line-height:1.15;
+    color:#fff;
+    margin-bottom:6px;
+  }
+
+  .sidebar .role{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--brass-soft);
+    margin-bottom:34px;
+  }
+
+  .side-section{ margin-bottom:34px; }
+
+  .side-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--brass-soft);
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .side-label::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:rgba(255,255,255,0.14);
+  }
+
+  .contact-list{ list-style:none; }
+  .contact-list li{
+    font-size:13.5px;
+    color:var(--text-on-ink);
+    margin-bottom:10px;
+    word-break:break-word;
+    display:flex;
+    gap:8px;
+  }
+  .contact-list li span.k{
+    color:var(--text-on-ink-muted);
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    min-width:52px;
+    flex-shrink:0;
+    padding-top:2px;
+  }
+
+  .skill-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .skill-tags span{
+    font-size:12px;
+    padding:5px 10px;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:3px;
+    color:var(--text-on-ink);
+  }
+
+  .lang-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:13.5px;
+    margin-bottom:9px;
+    color:var(--text-on-ink);
+  }
+  .lang-row span.level{
+    color:var(--text-on-ink-muted);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+  }
+
+  /* ---------- MAIN CONTENT ---------- */
+  .content{
+    padding:56px 52px 70px;
+  }
+
+  section{ margin-bottom:44px; }
+  section:last-child{ margin-bottom:0; }
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:22px;
+  }
+
+  .section-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:22px;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+
+  .section-head::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--paper-line);
+  }
+
+  .about-text{
+    font-size:15.5px;
+    color:var(--text-main);
+    max-width:60ch;
+  }
+
+  .about-text .lede{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:500;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+
+  /* Timeline for experience */
+  .timeline{
+    position:relative;
+    padding-left:26px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:5px;
+    top:6px;
+    bottom:6px;
+    width:1px;
+    background:var(--paper-line);
+  }
+
+  .entry{
+    position:relative;
+    margin-bottom:30px;
+  }
+  .entry:last-child{ margin-bottom:0; }
+
+  .entry::before{
+    content:"";
+    position:absolute;
+    left:-26px;
+    top:5px;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--brass);
+  }
+
+  .entry-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:6px 14px;
+    margin-bottom:4px;
+  }
+
+  .entry-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:17px;
+    color:var(--ink);
+  }
+
+  .entry-org{
+    font-size:13.5px;
+    color:var(--brass);
+    font-weight:500;
+  }
+
+  .entry-date{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--text-muted);
+    letter-spacing:0.02em;
+    white-space:nowrap;
+  }
+
+  .entry-desc{
+    font-size:14px;
+    color:var(--text-main);
+    margin-top:8px;
+  }
+  .entry-desc ul{
+    padding-left:18px;
+    margin-top:6px;
+  }
+  .entry-desc li{ margin-bottom:4px; }
+
+  /* Projects grid */
+  .projects-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+
+  .project-card{
+    border:1px solid var(--paper-line);
+    border-radius:6px;
+    padding:18px 20px;
+    background:#fff;
+  }
+
+  .project-card h3{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+
+  .project-card p{
+    font-size:13.5px;
+    color:var(--text-muted);
+    margin-bottom:10px;
+  }
+
+  .project-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .project-tags span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--brass);
+    background:rgba(169,130,79,0.1);
+    padding:3px 8px;
+    border-radius:3px;
+  }
+
+  .project-link{
+    display:inline-block;
+    margin-top:10px;
+    font-size:12.5px;
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:1px solid var(--brass);
+  }
+
+  /* Education */
+  .edu-entry{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:14px;
+    padding:14px 0;
+    border-bottom:1px solid var(--paper-line);
+    flex-wrap:wrap;
+  }
+  .edu-entry:last-child{ border-bottom:none; }
+  .edu-title{ font-weight:500; color:var(--ink); font-size:14.5px; }
+  .edu-sub{ font-size:13px; color:var(--text-muted); }
+  .edu-date{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--text-muted);
+    white-space:nowrap;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 800px){
+    .page{ grid-template-columns:1fr; }
+    .sidebar{ padding:40px 28px; }
+    .content{ padding:40px 26px 60px; }
+    .projects-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print{
+    body{ background:#fff; }
+    .page{ grid-template-columns:280px 1fr; max-width:none; }
+    .sidebar{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .project-card{ break-inside:avoid; }
+    .entry{ break-inside:avoid; }
+  }
+
+  /* ---------- CALIFICACIÓN ---------- */
+  .rating-box{
+    max-width:60ch;
+  }
+
+  .rating-intro{
+    font-size:14.5px;
+    color:var(--text-muted);
+    margin-bottom:18px;
+  }
+
+  .rating-form{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .stars{
+    display:flex;
+    gap:6px;
+  }
+
+  .star{
+    background:none;
+    border:none;
+    font-size:30px;
+    line-height:1;
+    color:var(--paper-line);
+    cursor:pointer;
+    padding:0;
+    transition:color 0.15s ease, transform 0.15s ease;
+  }
+
+  .star:hover{ transform:scale(1.1); }
+
+  .star.active{ color:var(--brass); }
+
+  .rating-comment{
+    font-family:'Work Sans', sans-serif;
+    font-size:13.5px;
+    color:var(--text-main);
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:6px;
+    padding:12px 14px;
+    resize:vertical;
+    max-width:420px;
+  }
+
+  .rating-comment:focus{
+    outline:2px solid var(--brass);
+    outline-offset:1px;
+  }
+
+  .rating-submit{
+    align-self:flex-start;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--ink);
+    border:none;
+    border-radius:5px;
+    padding:12px 22px;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+
+  .rating-submit:hover{ background:var(--brass); }
+
+  .rating-thanks{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    color:var(--brass);
+  }
+
+  a{ color:inherit; }
+
+  :focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+
+    <div class="photo-wrap">
+      <!-- Reemplaza el src de abajo por la ruta de tu foto, por ejemplo: "foto.jpg" -->
+      <img img src="Foto_perfil.png" alt="Foto de perfil">
+      <span class="placeholder-text"><br></span>
+    </div>
+
+    <h1>Rafael Duvan Ricardo Romero</h1>
+    <div class="role">Estudiante de Ingeniería de Fisica</div>
+
+    <div class="side-section">
+      <div class="side-label">Contacto</div>
+      <ul class="contact-list">
+        <li><span class="k">Email</span> RRicardo@unal.edu.co</li>
+        <li><span class="k">Tel</span> +57 3218221332</li>
+        <li><span class="k">Ciudad</span> Medellín, Colombia</li>
+        <li><span class="k">Web</span> tuportafolio.com</li>
+        <li><span class="k"><a href="https://www.linkedin.com/in/rafael-duvan-ricardo-romero-684064314/" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></li>
+        <li><span class="k">GitHub</span> <a href="https://github.com/Rrricardi" target="_blank" rel="noopener noreferrer">Rrricardi </a></li>
+      </ul>
+    </div>
+
+    <div class="side-section">
+      <div class="side-label">Habilidades</div>
+      <div class="skill-tags">
+        <span>Python</span>
+        <span>JavaScript</span>
+        <span>HTML/CSS</span>
+        <span>Git</span>
+        <span>SQL</span>
+        <span>Machine Learning</span>
+      </div>
+    </div>
+
+    <div class="side-section">
+      <div class="side-label">Idiomas</div>
+      <div class="lang-row"><span>Español</span><span class="level">Nativo</span></div>
+      <div class="lang-row"><span>Inglés</span><span class="level">Intermedio</span></div>
+    </div>
+
+    <div class="side-section">
+      <div class="side-label">Certificaciones</div>
+      <ul class="contact-list">
+        <li><a href="https://drive.google.com/file/d/1mFh8LyMuUZY50SeusFknvn-CYEPW7deE/view?usp=sharing" target="_blank" rel="noopener noreferrer">Ciencia de datos — Universidad de los Andes, 2026</a></li>
+        <li><a href="https://drive.google.com/file/d/1lI4njj3QjwAGo5FuQK68oCtLP8SCt0mI/view?usp=sharing" target="_blank" rel="noopener noreferrer">Python para análisis de datos — Universidad de México, 2026</a></li>
+        <li><a href="https://drive.google.com/file/d/1_YEOWJ0U1Lp1xRlt3SC8EbqoeFE3hB6Y/view?usp=sharing">Cloud Architecture — AWS, 2025</a></li>
+        <li><a href="https://drive.google.com/file/d/1r2X-WeBku0_sNkgeIur9Ffv0dqdWn9sZ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Spatial DAta Science and Aplications — YONSEI UNIVERSITY, 2025</a></li>
+        <li><a href="https://drive.google.com/file/d/1lI4njj3QjwAGo5FuQK68oCtLP8SCt0mI/view?usp=sharing" target="_blank" rel="noopener noreferrer">xxxxx — xxxxxx</a></li>
+        <li><a href="https://drive.google.com/file/d/1lI4njj3QjwAGo5FuQK68oCtLP8SCt0mI/view?usp=sharing" target="_blank" rel="noopener noreferrer">xxxxx — xxxxxx</a></li>
+
+      </ul>
+    </div>
+
+  </aside>
+
+  <!-- ============ CONTENIDO PRINCIPAL ============ -->
+  <main class="content">
+
+    <section id="perfil">
+      <div class="section-head"><h2>Perfil</h2></div>
+      <div class="about-text">
+        <p class="lede">Una frase corta y potente que resuma quién eres profesionalmente.</p>
+        <p>Escribe aquí 3-5 líneas sobre ti: tu experiencia general, tu enfoque de trabajo, qué te apasiona de tu área y qué tipo de proyectos o retos buscas. Evita frases genéricas; sé concreto sobre lo que sabes hacer y el valor que aportas.</p>
+      </div>
+    </section>
+
+    <section id="experiencia">
+      <div class="section-head"><h2>Experiencia</h2></div>
+      <div class="timeline">
+
+        <div class="entry">
+          <div class="entry-top">
+            <div>
+              <div class="entry-title">Cargo del puesto</div>
+              <div class="entry-org">Nombre de la empresa</div>
+            </div>
+            <div class="entry-date">Ene 2023 — Presente</div>
+          </div>
+          <div class="entry-desc">
+            <ul>
+              <li>Logro o responsabilidad concreta, idealmente con una cifra o resultado medible.</li>
+              <li>Otra responsabilidad importante o proyecto destacado.</li>
+              <li>Herramienta, metodología o tecnología clave que usaste.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-top">
+            <div>
+              <div class="entry-title">Cargo del puesto</div>
+              <div class="entry-org">Nombre de la empresa</div>
+            </div>
+            <div class="entry-date">Mar 2021 — Dic 2022</div>
+          </div>
+          <div class="entry-desc">
+            <ul>
+              <li>Logro o responsabilidad concreta.</li>
+              <li>Resultado alcanzado durante este periodo.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-top">
+            <div>
+              <div class="entry-title">Cargo del puesto</div>
+              <div class="entry-org">Nombre de la empresa</div>
+            </div>
+            <div class="entry-date">2019 — 2021</div>
+          </div>
+          <div class="entry-desc">
+            <ul>
+              <li>Logro o responsabilidad concreta.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="proyectos">
+      <div class="section-head"><h2>Proyectos</h2></div>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <h3>Nombre del proyecto</h3>
+          <p>Descripción breve: qué problema resuelve y cuál fue tu papel en él.</p>
+          <div class="project-tags">
+            <span>Tecnología</span>
+            <span>Tecnología</span>
+          </div>
+          <a class="project-link" href="#">Ver proyecto →</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Nombre del proyecto</h3>
+          <p>Descripción breve: qué problema resuelve y cuál fue tu papel en él.</p>
+          <div class="project-tags">
+            <span>Tecnología</span>
+            <span>Tecnología</span>
+          </div>
+          <a class="project-link" href="#">Ver proyecto →</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Nombre del proyecto</h3>
+          <p>Descripción breve: qué problema resuelve y cuál fue tu papel en él.</p>
+          <div class="project-tags">
+            <span>Tecnología</span>
+          </div>
+          <a class="project-link" href="#">Ver proyecto →</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Nombre del proyecto</h3>
+          <p>Descripción breve: qué problema resuelve y cuál fue tu papel en él.</p>
+          <div class="project-tags">
+            <span>Tecnología</span>
+            <span>Tecnología</span>
+          </div>
+          <a class="project-link" href="#">Ver proyecto →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="educacion">
+      <div class="section-head"><h2>Educación</h2></div>
+
+      <div class="edu-entry">
+        <div>
+          <div class="edu-title">Título obtenido</div>
+          <div class="edu-sub">Institución educativa</div>
+        </div>
+        <div class="edu-date">2015 — 2019</div>
+      </div>
+
+      <div class="edu-entry">
+        <div>
+          <div class="edu-title">Curso o diplomado</div>
+          <div class="edu-sub">Institución</div>
+        </div>
+        <div class="edu-date">2020</div>
+      </div>
+
+    </section>
+
+    <section id="calificacion">
+      <div class="section-head"><h2>¿Qué te pareció?</h2></div>
+      <div class="rating-box">
+        <p class="rating-intro">Califica mi hoja de vida — tu opinión me ayuda a mejorarla.</p>
+
+        <form id="ratingForm" class="rating-form" action="https://formspree.io/f/xdenajgv" method="POST">
+          <div class="stars" id="stars">
+            <button type="button" class="star" data-value="1" aria-label="1 estrella">★</button>
+            <button type="button" class="star" data-value="2" aria-label="2 estrellas">★</button>
+            <button type="button" class="star" data-value="3" aria-label="3 estrellas">★</button>
+            <button type="button" class="star" data-value="4" aria-label="4 estrellas">★</button>
+            <button type="button" class="star" data-value="5" aria-label="5 estrellas">★</button>
+          </div>
+          <input type="hidden" name="calificacion" id="ratingValue" value="">
+
+          <textarea name="comentario" class="rating-comment" placeholder="Comentario opcional..." rows="3"></textarea>
+
+          <button type="submit" class="rating-submit">Enviar calificación</button>
+        </form>
+
+        <p id="ratingThanks" class="rating-thanks" hidden>¡Gracias por tu calificación!</p>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<script>
+  (function(){
+    const stars = document.querySelectorAll('#stars .star');
+    const ratingValue = document.getElementById('ratingValue');
+    const form = document.getElementById('ratingForm');
+    const thanks = document.getElementById('ratingThanks');
+    let selected = 0;
+
+    function paintStars(value){
+      stars.forEach(s => {
+        s.classList.toggle('active', Number(s.dataset.value) <= value);
+      });
+    }
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        selected = Number(star.dataset.value);
+        ratingValue.value = selected;
+        paintStars(selected);
+      });
+      star.addEventListener('mouseenter', () => paintStars(Number(star.dataset.value)));
+      star.addEventListener('mouseleave', () => paintStars(selected));
+    });
+
+    form.addEventListener('submit', function(e){
+      if(!selected){
+        e.preventDefault();
+        alert('Por favor selecciona una calificación de 1 a 5 estrellas.');
+        return;
+      }
+      e.preventDefault();
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if(response.ok){
+          form.hidden = true;
+          thanks.hidden = false;
+        } else {
+          alert('Hubo un problema al enviar tu calificación. Intenta de nuevo.');
+        }
+      }).catch(() => {
+        alert('Hubo un problema al enviar tu calificación. Intenta de nuevo.');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
