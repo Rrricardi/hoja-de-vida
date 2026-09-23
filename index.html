@@ -1,4 +1,4 @@
-6am<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -676,6 +676,54 @@
 
 </div>
 
+<script>
+  (function(){
+    const stars = document.querySelectorAll('#stars .star');
+    const ratingValue = document.getElementById('ratingValue');
+    const form = document.getElementById('ratingForm');
+    const thanks = document.getElementById('ratingThanks');
+    let selected = 0;
+
+    function paintStars(value){
+      stars.forEach(s => {
+        s.classList.toggle('active', Number(s.dataset.value) <= value);
+      });
+    }
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        selected = Number(star.dataset.value);
+        ratingValue.value = selected;
+        paintStars(selected);
+      });
+      star.addEventListener('mouseenter', () => paintStars(Number(star.dataset.value)));
+      star.addEventListener('mouseleave', () => paintStars(selected));
+    });
+
+    form.addEventListener('submit', function(e){
+      if(!selected){
+        e.preventDefault();
+        alert('Por favor selecciona una calificación de 1 a 5 estrellas.');
+        return;
+      }
+      e.preventDefault();
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if(response.ok){
+          form.hidden = true;
+          thanks.hidden = false;
+        } else {
+          alert('Hubo un problema al enviar tu calificación. Intenta de nuevo.');
+        }
+      }).catch(() => {
+        alert('Hubo un problema al enviar tu calificación. Intenta de nuevo.');
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
